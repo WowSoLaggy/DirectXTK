@@ -552,7 +552,7 @@ std::unique_ptr<Model> DirectX::Model::CreateFromCMO(ID3D11Device* d3dDevice, co
         XMVECTOR max = XMVectorSet(extents->MaxX, extents->MaxY, extents->MaxZ, 0.f);
         BoundingBox::CreateFromPoints(mesh->boundingBox, min, max);
 
-    #if 0
+    #if 1
             // Animation data
         if (*bSkeleton)
         {
@@ -579,17 +579,14 @@ std::unique_ptr<Model> DirectX::Model::CreateFromCMO(ID3D11Device* d3dDevice, co
                 if (dataSize < usedSize)
                     throw std::exception("End of file");
 
-                // TODO - What to do with bone name?
-                boneName;
-
                 // Bone settings
-                auto bones = reinterpret_cast<const VSD3DStarter::Bone*>(meshData + usedSize);
+                auto pBone = reinterpret_cast<const VSD3DStarter::Bone*>(meshData + usedSize);
                 usedSize += sizeof(VSD3DStarter::Bone);
                 if (dataSize < usedSize)
                     throw std::exception("End of file");
 
-                // TODO - What to do with bone data?
-                bones;
+                mesh->bones.push_back({ boneName, pBone->ParentIndex,
+                    pBone->InvBindPos, pBone->BindPos, pBone->LocalTransform });
             }
 
             // Animation Clips

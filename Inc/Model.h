@@ -76,6 +76,18 @@ namespace DirectX
 
 
     //----------------------------------------------------------------------------------
+    // Bone structure for the skeletal animation
+    struct Bone
+    {
+        std::wstring Name;
+        INT ParentIndex;
+        DirectX::XMFLOAT4X4 InvBindPos;
+        DirectX::XMFLOAT4X4 BindPos;
+        DirectX::XMFLOAT4X4 LocalTransform;
+    };
+
+
+    //----------------------------------------------------------------------------------
     // A mesh consists of one or more model mesh parts
     class ModelMesh
     {
@@ -83,12 +95,13 @@ namespace DirectX
         ModelMesh() noexcept;
         virtual ~ModelMesh();
 
-        BoundingSphere              boundingSphere;
-        BoundingBox                 boundingBox;
-        ModelMeshPart::Collection   meshParts;
-        std::wstring                name;
-        bool                        ccw;
-        bool                        pmalpha;
+        BoundingSphere                          boundingSphere;
+        BoundingBox                             boundingBox;
+        ModelMeshPart::Collection               meshParts;
+        std::wstring                            name;
+        bool                                    ccw;
+        bool                                    pmalpha;
+        std::vector<Bone>                       bones;
 
         typedef std::vector<std::shared_ptr<ModelMesh>> Collection;
 
