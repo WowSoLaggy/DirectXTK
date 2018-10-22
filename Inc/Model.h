@@ -88,6 +88,26 @@ namespace DirectX
 
 
     //----------------------------------------------------------------------------------
+    // Single keyframe of the skeletal animation clip
+    struct Keyframe
+    {
+        UINT BoneIndex;
+        float Time;
+        DirectX::XMFLOAT4X4 Transform;
+    };
+
+
+    //----------------------------------------------------------------------------------
+    // Animation clip for the skeletal animation
+    struct AnimClip
+    {
+        float StartTime;
+        float EndTime;
+        std::vector<Keyframe> Keyframes;
+    };
+
+
+    //----------------------------------------------------------------------------------
     // A mesh consists of one or more model mesh parts
     class ModelMesh
     {
@@ -102,6 +122,7 @@ namespace DirectX
         bool                                    ccw;
         bool                                    pmalpha;
         std::vector<Bone>                       bones;
+        std::map<const std::wstring, AnimClip>  animClipMap;
 
         typedef std::vector<std::shared_ptr<ModelMesh>> Collection;
 

@@ -609,9 +609,6 @@ std::unique_ptr<Model> DirectX::Model::CreateFromCMO(ID3D11Device* d3dDevice, co
                 if (dataSize < usedSize)
                     throw std::exception("End of file");
 
-                // TODO - What to do with clip name?
-                clipName;
-
                 auto clip = reinterpret_cast<const VSD3DStarter::Clip*>(meshData + usedSize);
                 usedSize += sizeof(VSD3DStarter::Clip);
                 if (dataSize < usedSize)
@@ -625,8 +622,13 @@ std::unique_ptr<Model> DirectX::Model::CreateFromCMO(ID3D11Device* d3dDevice, co
                 if (dataSize < usedSize)
                     throw std::exception("End of file");
 
-                // TODO - What to do with keys and clip->StartTime, clip->EndTime?
-                keys;
+                auto& animClip = mesh->animClipMap[clipName];
+                animClip.StartTime = clip->StartTime;
+                animClip.EndTime = clip->EndTime;
+
+                animClip.Keyframes.reserve((int)clip->keys);
+                for (int i = 0; i < (int)clip->keys; ++i)
+                    animClip.Keyframes.push_back({ keys[i].BoneIndex, keys[i].Time, keys[i].Transform });
             }
         }
     #else
