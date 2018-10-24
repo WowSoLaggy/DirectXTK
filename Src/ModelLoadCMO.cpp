@@ -586,7 +586,9 @@ std::unique_ptr<Model> DirectX::Model::CreateFromCMO(ID3D11Device* d3dDevice, co
                     throw std::exception("End of file");
 
                 mesh->bones.push_back({ boneName, pBone->ParentIndex,
-                    pBone->InvBindPos, pBone->BindPos, pBone->LocalTransform });
+                    XMLoadFloat4x4(&pBone->InvBindPos),
+                    XMLoadFloat4x4(&pBone->BindPos),
+                    XMLoadFloat4x4(&pBone->LocalTransform) });
             }
 
             // Animation Clips
@@ -628,7 +630,8 @@ std::unique_ptr<Model> DirectX::Model::CreateFromCMO(ID3D11Device* d3dDevice, co
 
                 animClip.Keyframes.reserve((int)clip->keys);
                 for (int i = 0; i < (int)clip->keys; ++i)
-                    animClip.Keyframes.push_back({ keys[i].BoneIndex, keys[i].Time, keys[i].Transform });
+                    animClip.Keyframes.push_back({ keys[i].BoneIndex, keys[i].Time,
+                        XMLoadFloat4x4(&keys[i].Transform) });
             }
         }
     #else

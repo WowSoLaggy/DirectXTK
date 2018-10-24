@@ -81,9 +81,9 @@ namespace DirectX
     {
         std::wstring Name;
         INT ParentIndex;
-        DirectX::XMFLOAT4X4 InvBindPos;
-        DirectX::XMFLOAT4X4 BindPos;
-        DirectX::XMFLOAT4X4 LocalTransform;
+        DirectX::XMMATRIX InvBindPos;
+        DirectX::XMMATRIX BindPos;
+        DirectX::XMMATRIX LocalTransform;
     };
 
 
@@ -93,7 +93,7 @@ namespace DirectX
     {
         UINT BoneIndex;
         float Time;
-        DirectX::XMFLOAT4X4 Transform;
+        DirectX::XMMATRIX Transform;
     };
 
 
