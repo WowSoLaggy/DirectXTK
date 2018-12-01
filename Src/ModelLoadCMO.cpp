@@ -630,8 +630,10 @@ std::unique_ptr<Model> DirectX::Model::CreateFromCMO(ID3D11Device* d3dDevice, co
 
                 animClip.Keyframes.reserve((int)clip->keys);
                 for (int i = 0; i < (int)clip->keys; ++i)
-                    animClip.Keyframes.push_back({ keys[i].BoneIndex, keys[i].Time,
-                        XMLoadFloat4x4(&keys[i].Transform) });
+                {
+                  animClip.Keyframes.push_back({ keys[i].BoneIndex, keys[i].Time,
+                      XMLoadFloat4x4(&keys[i].Transform) });
+                }
             }
         }
     #else
