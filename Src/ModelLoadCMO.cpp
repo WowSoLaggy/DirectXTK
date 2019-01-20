@@ -848,7 +848,7 @@ std::unique_ptr<Model> DirectX::Model::CreateFromCMO(ID3D11Device* d3dDevice, co
 
             auto part = new ModelMeshPart();
 
-            if (mat.pMaterial->Diffuse.w < 1)
+            if (mat.name.rfind(L"Alpha", 0) == 0)
                 part->isAlpha = true;
 
             part->indexCount = sm.PrimCount * 3;
